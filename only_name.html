@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Matrix Test</title>
+  </head>
+  <body style="margin: 0; overflow: hidden">
+    <script type="text/javascript">
+      function matrixRain() {
+        const canvas = document.createElement("canvas");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        canvas.style.position = "fixed";
+        canvas.style.top = 0;
+        canvas.style.left = 0;
+        canvas.style.zIndex = -1;
+        document.body.appendChild(canvas);
+
+        const context = canvas.getContext("2d");
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+        const genericName = "EREN"; // Change this to your desired name
+
+        // Initialize drops with the name characters
+        for (let i = 0; i < genericName.length; i++) {
+          drops[i] = Math.floor(canvas.height / 2); // Start at the center of the screen
+        }
+
+        function drawMatrixRain() {
+          context.fillStyle = "rgba(0, 0, 0, 0.1)";
+          context.fillRect(0, 0, canvas.width, canvas.height);
+
+          context.fillStyle = "#00FF00";
+          context.font = fontSize + "px Courier";
+
+          // Display the name characters
+          for (let i = 0; i < genericName.length; i++) {
+            const x =
+              canvas.width / 2 -
+              (genericName.length * fontSize * 1.5) / 2 +
+              i * fontSize * 1.5; // Center the name
+            const y = drops[i] * fontSize;
+
+            context.fillText(genericName[i], x, y);
+
+            if (y > canvas.height && Math.random() > 0.975) {
+              drops[i] = 0;
+            }
+
+            drops[i]++;
+          }
+
+          // Display random characters after the name
+          for (let i = genericName.length; i < drops.length; i++) {
+            const text = String.fromCharCode(Math.random() * 128);
+            const x = i * fontSize * 1.5; // Adjust the factor for spacing
+            const y = drops[i] * fontSize;
+
+            context.fillText(text, x, y);
+
+            if (y > canvas.height && Math.random() > 0.975) {
+              drops[i] = 0;
+            }
+
+            drops[i]++;
+          }
+        }
+
+        setInterval(drawMatrixRain, 50);
+      }
+
+      matrixRain();
+    </script>
+  </body>
+</html>
